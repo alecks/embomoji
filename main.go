@@ -11,7 +11,7 @@ import (
 
 func main() {
 	err := filepath.Walk("in", func(p string, info os.FileInfo, err error) error {
-		if err != nil {
+		if err != nil || info.IsDir() {
 			return err
 		}
 
@@ -29,7 +29,8 @@ func main() {
 			nil,
 		)
 
-		return imaging.Save(img, path.Join("out", p))
+		_, filename := path.Split(p)
+		return imaging.Save(img, path.Join("out", filename))
 	})
 	if err != nil {
 		log.Fatalln("Failed:", err)
