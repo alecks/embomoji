@@ -10,6 +10,9 @@ import (
 )
 
 func main() {
+	if _, err := os.Stat("out"); err != nil {
+		os.Mkdir("out", os.ModePerm)
+	}
 	err := filepath.Walk("in", func(p string, info os.FileInfo, err error) error {
 		if err != nil || info.IsDir() {
 			return err
